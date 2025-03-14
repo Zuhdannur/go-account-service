@@ -3,6 +3,7 @@ package bank
 import (
 	"context"
 	"errors"
+	"fmt"
 	"strings"
 
 	"github.com/gofiber/fiber"
@@ -88,6 +89,12 @@ func (s *BankService) Withdrawal(ctx context.Context, input WithdrawalModel) (*d
 	if errors.Is(err, db.ErrNotFound) {
 		return nil, fiber.NewError(fiber.StatusBadRequest, "Nomor Rekening Tidak Ditemukan")
 	}
+
+	if account.Nominal < input.Nominal {
+		logger.Warning(serviceTag, "running Withdrawal Func saldo tidak cukup")
+		return nil, fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("Saldo tidak cukup. Saldo saat ini: %.0f", account.Nominal))
+	}
+
 	newNominal := account.Nominal - input.Nominal
 
 	payload := db.InnerBank{

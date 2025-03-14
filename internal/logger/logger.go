@@ -40,8 +40,8 @@ func Info(tag string, msg string) {
 	Log.Info().Msg(fmt.Sprintf("INFO: (%s) %s", tag, msg))
 }
 
-func Warning(msg string) {
-	Log.Warn().Msg(msg)
+func Warning(tag string, msg string) {
+	Log.Warn().Msg(fmt.Sprintf("INFO: (%s) %s", tag, msg))
 }
 
 func Error(tag string, msg string, err error) {

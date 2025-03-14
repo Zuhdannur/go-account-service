@@ -46,7 +46,7 @@ func (r *bankRepository) GetBankByAccountNumber(ctx context.Context, accountNumb
 		db.Bank.AccountNumber.Equals(accountNumber),
 	).Exec(ctx)
 	if err != nil {
-		logger.Warning(fmt.Sprintf("WARNING: Account record not found: %v", err))
+		logger.Warning(repositoryTag, fmt.Sprintf("WARNING: Account record not found: %v", err))
 		return nil, err
 	}
 	log.Println("INFO: Retrieved account record successfully")
